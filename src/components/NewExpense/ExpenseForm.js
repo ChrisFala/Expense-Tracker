@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import './ExpenseForm.css'
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
     //Creating state for each field in form component
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDate, setEnteredDate] = useState('');
+    const [enteredcategory, setEnteredcategory] = useState('');
 
     //Re-renders form field on keystroke
     const titleChangeHandler = (event) => {
@@ -17,6 +18,9 @@ const ExpenseForm = () => {
     const dateChangeHandler = (event) => {
         setEnteredDate(event.target.value);
     };
+    const categoryChangeHandler = (event) => {
+        setEnteredcategory(event.target.value);
+    }
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -26,13 +30,15 @@ const ExpenseForm = () => {
             title: enteredTitle,
             amount: enteredAmount,
             date: new Date(enteredDate),
+            category: enteredcategory,
         };
 
-        console.log(expenseData)
+        props.onSubmitExpenseData(expenseData);
         //Setting fields to blank after form submit
         setEnteredTitle('')
         setEnteredAmount('')
         setEnteredDate('')
+        setEnteredcategory('')
     };
 
     return (
@@ -64,6 +70,14 @@ const ExpenseForm = () => {
                         min="2019-01-01"
                         max="2023-12-31"
                         onChange={dateChangeHandler}
+                    />
+                </div>
+                <div className='new-expense__control'>
+                    <label>Category</label>
+                    <input
+                        type='string'
+                        value={enteredcategory}
+                        onChange={categoryChangeHandler}
                     />
                 </div>
             </div>
